@@ -73,7 +73,7 @@ const handlers = processHandlers([
     },
     {
         pattern: "*://ad.admitad.com/*",
-        handler: TrailingSegmentHandler("ulp")
+        handler: TrailingSegmentHandler("ulp=")
     },
     {
         pattern: "*://shareasale.com/*",
