@@ -39,6 +39,20 @@ const TradedoublerHandler = function () {
     }
 }
 
+const WebGainsHandler = function () {
+    return {
+        handle: function (details) {
+            let encodedSegment = details.url.substring(
+                details.url.lastIndexOf("wgtarget=") + 9
+            );
+
+            return encodedSegment ? 
+                decodeURIComponent(encodedSegment) : 
+                null;
+        }
+    }
+} 
+
 // Register handlers for websites here
 const handlers = processHandlers([
     {
@@ -52,6 +66,10 @@ const handlers = processHandlers([
     {
         pattern: "*://clkuk.tradedoubler.com/click?*",
         handler: TradedoublerHandler()
+    },
+    {
+        pattern: "*://track.webgains.com/click.html?*",
+        handler: WebGainsHandler() // they don't encode the url, so cannot use GenericParameterHandler
     },
 ]);
 
