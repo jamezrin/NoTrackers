@@ -71,6 +71,10 @@ const handlers = processHandlers([
         pattern: "*://track.webgains.com/click.html?*",
         handler: WebGainsHandler() // they don't encode the url, so cannot use GenericParameterHandler
     },
+    {
+        pattern: "*://www.awin1.com/cread.php?*",
+        handler: GenericParameterHandler("p")
+    },
 ]);
 
 // Converts wildcard patterns to regex patterns when creating the handlers array
