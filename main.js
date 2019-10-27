@@ -24,6 +24,21 @@ const GitterMailTrackingHandler = function () {
     }
 }
 
+const TradedoublerHandler = function () {
+    return {
+        handle: function (details) {
+            let targetUrl = details.url.substring(
+                details.url.lastIndexOf("url(") + 4,
+                details.url.lastIndexOf(")")
+            );
+
+            return targetUrl ? 
+                decodeURIComponent(targetUrl) : 
+                null 
+        }
+    }
+}
+
 // Register handlers for websites here
 const handlers = processHandlers([
     {
@@ -33,6 +48,10 @@ const handlers = processHandlers([
     {
         pattern: "*://mailtracking.gitter.im/track/click/*",
         handler: GitterMailTrackingHandler()
+    },
+    {
+        pattern: "*://clkuk.tradedoubler.com/click?*",
+        handler: TradedoublerHandler()
     },
 ]);
 
