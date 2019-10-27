@@ -10,11 +10,12 @@ const GenericParameterHandler = function (parameterName) {
     }
 }
 
-const GitterMailTrackingHandler = function () {
+// Works with some string that denotes the start of the url
+const TrailingSegmentHandler = function (trailingSegment) {
     return {
         handle: function (details) {
             let encodedSegment = details.url.substring(
-                details.url.lastIndexOf('/') + 1
+                details.url.lastIndexOf(trailingSegment) + trailingSegment.length
             );
 
             return encodedSegment ? 
@@ -24,7 +25,8 @@ const GitterMailTrackingHandler = function () {
     }
 }
 
-const TradedoublerHandler = function () {
+// Some TradeDoubler domains use a different url structure
+const TradeDoublerHandler = function () {
     return {
         handle: function (details) {
             let targetUrl = details.url.substring(
@@ -39,34 +41,6 @@ const TradedoublerHandler = function () {
     }
 }
 
-const WebGainsHandler = function () {
-    return {
-        handle: function (details) {
-            let encodedSegment = details.url.substring(
-                details.url.lastIndexOf("wgtarget=") + 9
-            );
-
-            return encodedSegment ? 
-                decodeURIComponent(encodedSegment) : 
-                null;
-        }
-    }
-}
-
-const AdmitadHandler = function () {
-    return {
-        handle: function (details) {
-            let encodedSegment = details.url.substring(
-                details.url.lastIndexOf("ulp=") + 4
-            );
-
-            return encodedSegment ? 
-                decodeURIComponent(encodedSegment) : 
-                null;
-        }
-    }
-}
-
 // Register handlers for websites here
 const handlers = processHandlers([
     {
@@ -75,15 +49,15 @@ const handlers = processHandlers([
     },
     {
         pattern: "*://mailtracking.gitter.im/track/click/*",
-        handler: GitterMailTrackingHandler()
+        handler: TrailingSegmentHandler("/")
     },
     {
         pattern: "*://clkuk.tradedoubler.com/click?*",
-        handler: TradedoublerHandler()
+        handler: TradeDoublerHandler()
     },
     {
         pattern: "*://clkde.tradedoubler.com/click?*",
-        handler: TradedoublerHandler()
+        handler: TradeDoublerHandler()
     },
     {
         pattern: "*://clk.tradedoubler.com/click?*",
@@ -91,7 +65,7 @@ const handlers = processHandlers([
     },
     {
         pattern: "*://track.webgains.com/click.html?*",
-        handler: WebGainsHandler() // they don't encode the url, so cannot use GenericParameterHandler
+        handler: TrailingSegmentHandler("wgtarget=")
     },
     {
         pattern: "*://www.awin1.com/cread.php?*",
@@ -99,7 +73,7 @@ const handlers = processHandlers([
     },
     {
         pattern: "*://ad.admitad.com/*",
-        handler: AdmitadHandler("ulp")
+        handler: TrailingSegmentHandler("ulp")
     },
     {
         pattern: "*://shareasale.com/*",
@@ -163,6 +137,13 @@ function processRedirectUrl(redirectUrl) {
     return redirectUrl;
 }
 
+// Takes a property from every element in the array
+function pluck(array, key) {
+    return array.map(function (obj) {
+        return obj[key];
+    });
+}
+
 function registerListener() {
     chrome.webRequest.onBeforeRequest.addListener(function (details) {
         const matchingHandler = findHandlerFor(details);
@@ -184,13 +165,6 @@ function registerListener() {
         { urls: pluck(handlers, "pattern") }, // only process urls we know we have handlers for
         ['blocking'] // not async, so it allows to modify the outcome of the request
     );
-}
-
-// Takes a property from every element in the array
-function pluck(array, key) {
-    return array.map(function (obj) {
-        return obj[key];
-    });
 }
 
 // Handle errors, say something, etc...
