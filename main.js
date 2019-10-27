@@ -75,6 +75,10 @@ const handlers = processHandlers([
         pattern: "*://www.awin1.com/cread.php?*",
         handler: GenericParameterHandler("p")
     },
+    {
+        pattern: "*://ad.admitad.com/*",
+        handler: GenericParameterHandler("ulp")
+    },
 ]);
 
 // Converts wildcard patterns to regex patterns when creating the handlers array
