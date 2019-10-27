@@ -10,7 +10,7 @@ const GenericParameterHandler = function (parameterName) {
     }
 }
 
-const GitterMailTracking = function () {
+const GitterMailTrackingHandler = function () {
     return {
         handle: function (details) {
             let encodedSegment = details.url.substring(
@@ -32,7 +32,7 @@ const handlers = processHandlers([
     },
     {
         pattern: "*://mailtracking.gitter.im/track/click/*",
-        handler: GitterMailTracking()
+        handler: GitterMailTrackingHandler()
     },
 ]);
 
