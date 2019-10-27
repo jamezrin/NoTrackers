@@ -51,7 +51,21 @@ const WebGainsHandler = function () {
                 null;
         }
     }
-} 
+}
+
+const AdmitadHandler = function () {
+    return {
+        handle: function (details) {
+            let encodedSegment = details.url.substring(
+                details.url.lastIndexOf("ulp=") + 4
+            );
+
+            return encodedSegment ? 
+                decodeURIComponent(encodedSegment) : 
+                null;
+        }
+    }
+}
 
 // Register handlers for websites here
 const handlers = processHandlers([
@@ -85,7 +99,7 @@ const handlers = processHandlers([
     },
     {
         pattern: "*://ad.admitad.com/*",
-        handler: GenericParameterHandler("ulp")
+        handler: AdmitadHandler("ulp")
     },
 ]);
 
@@ -142,8 +156,14 @@ function registerListener() {
         const redirectUrl = matchingHandler.handle(details);
 
         if (redirectUrl) {
+            console.log("Redirecting %s to %s...", 
+                details.url, redirectUrl
+            );
             return { redirectUrl: redirectUrl };
         } else {
+            console.log("Could not handle %s, blocking it...",
+                details.url
+            );
             return { cancel: true };
         }
     },
