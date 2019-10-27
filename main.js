@@ -68,6 +68,10 @@ const handlers = processHandlers([
         handler: TradedoublerHandler()
     },
     {
+        pattern: "*://clkde.tradedoubler.com/click?*",
+        handler: TradedoublerHandler()
+    },
+    {
         pattern: "*://clk.tradedoubler.com/click?*",
         handler: GenericParameterHandler("url")
     },
