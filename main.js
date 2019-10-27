@@ -68,6 +68,10 @@ const handlers = processHandlers([
         handler: TradedoublerHandler()
     },
     {
+        pattern: "*://clk.tradedoubler.com/click?*",
+        handler: GenericParameterHandler("url")
+    },
+    {
         pattern: "*://track.webgains.com/click.html?*",
         handler: WebGainsHandler() // they don't encode the url, so cannot use GenericParameterHandler
     },
