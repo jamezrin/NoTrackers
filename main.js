@@ -78,7 +78,7 @@ const handlers = processHandlers([
     {
         pattern: "*://shareasale.com/*",
         handler: GenericParameterHandler("urllink")
-    }
+    },
 ]);
 
 // Converts wildcard patterns to regex patterns when creating the handlers array
@@ -130,6 +130,10 @@ function findHandlerFor(details) {
 // Adds http protocol if neither http or https are in the url
 const PROTOCOL_REGEX = /^(http|https)\:\/\//
 function processRedirectUrl(redirectUrl) {
+    if (!redirectUrl) {
+        return null;
+    }
+
     if (!PROTOCOL_REGEX.test(redirectUrl)) {
         redirectUrl = "http://" + redirectUrl;
     }
@@ -148,9 +152,10 @@ function registerListener() {
     chrome.webRequest.onBeforeRequest.addListener(function (details) {
         const matchingHandler = findHandlerFor(details);
         const extractedRedirectUrl = matchingHandler.handle(details);
-        const redirectUrl = processRedirectUrl(extractedRedirectUrl);
 
-        if (redirectUrl) {
+        if (extractedRedirectUrl) {
+            const redirectUrl = processRedirectUrl(extractedRedirectUrl);
+
             console.log("Redirecting %s to %s...", 
                 details.url, redirectUrl
             );
