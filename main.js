@@ -72,6 +72,10 @@ const handlers = processHandlers([
         handler: GenericParameterHandler("url")
     },
     {
+        pattern: "*://*.evyy.net/c/*",
+        handler: GenericParameterHandler("u")
+    },
+    {
         pattern: "*://mailtracking.gitter.im/track/click/*",
         handler: TrailingSegmentHandler("/")
     },
