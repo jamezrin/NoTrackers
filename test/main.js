@@ -1,4 +1,4 @@
-var extension = require('../main');
+var extension = require('../src/main');
 var assert = require('assert');
 
 describe('Query String Parsing', function () {

@@ -19,6 +19,6 @@
 
     "background": {
         "persistent": true,
-        "scripts": ["main.js"]
+        "scripts": ["src/main.js"]
     }
 }
