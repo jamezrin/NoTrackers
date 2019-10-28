@@ -199,20 +199,24 @@ function initialize() {
     registerListener();
 }
 
+// If running under Chrome
 if (typeof chrome !== "undefined") {
     initialize();
 }
 
-module.exports = {
-    GenericParameterHandler,
-    TrailingSegmentHandler,
-    TradeDoublerHandler,
-
-    processHandlers,
-    registerListener,
-    findHandlerFor,
-    processRedirectUrl,
-    parseQueryString,
-    pluck,
-    handlers,
+// If running under NodeJS
+if (typeof module !== "undefined") {
+    module.exports = {
+        GenericParameterHandler,
+        TrailingSegmentHandler,
+        TradeDoublerHandler,
+    
+        processHandlers,
+        registerListener,
+        findHandlerFor,
+        processRedirectUrl,
+        parseQueryString,
+        pluck,
+        handlers,
+    }
 }
