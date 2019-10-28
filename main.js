@@ -169,10 +169,9 @@ function registerListener() {
             );
             return { redirectUrl: redirectUrl };
         } else {
-            console.log("Could not handle %s, blocking it...",
+            console.log("Could not handle %s",
                 details.url
             );
-            return { cancel: true };
         }
     },
         { urls: pluck(handlers, "pattern") }, // only process urls we know we have handlers for
