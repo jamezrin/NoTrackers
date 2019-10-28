@@ -79,6 +79,10 @@ const handlers = processHandlers([
         pattern: "*://shareasale.com/*",
         handler: GenericParameterHandler("urllink")
     },
+    {
+        pattern: "*://www.googleadservices.com/pagead/aclk?*",
+        handler: GenericParameterHandler("adurl")
+    },
 ]);
 
 // Converts wildcard patterns to regex patterns when creating the handlers array
