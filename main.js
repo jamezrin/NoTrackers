@@ -83,6 +83,10 @@ const handlers = processHandlers([
         pattern: "*://www.googleadservices.com/pagead/aclk?*",
         handler: GenericParameterHandler("adurl")
     },
+    {
+        pattern: "*://clickserve.dartsearch.net/link/click?*",
+        handler: TrailingSegmentHandler("ds_dest_url=")
+    }
 ]);
 
 // Converts wildcard patterns to regex patterns when creating the handlers array
