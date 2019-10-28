@@ -110,7 +110,7 @@ function processHandlers(handlers) {
 }
 
 function parseQueryString(fullUrl) {
-    const queryStringStart = fullUrl.lastIndexOf("?");
+    const queryStringStart = fullUrl.indexOf("?");
 
     if (queryStringStart === -1) {
         return {};
