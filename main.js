@@ -101,28 +101,42 @@ function processHandlers(handlers) {
     })
 }
 
-// From https://stackoverflow.com/a/979995/4673065
-// camelCase 'd for consistency's sake
-function parseQueryString(query) {
-    var vars = query.split("&");
-    var queryString = {};
-    for (var i = 0; i < vars.length; i++) {
-        var pair = vars[i].split("=");
-        var key = decodeURIComponent(pair[0]);
-        var value = decodeURIComponent(pair[1]);
-        // If first entry with this name
-        if (typeof queryString[key] === "undefined") {
-            queryString[key] = decodeURIComponent(value);
-            // If second entry with this name
-        } else if (typeof queryString[key] === "string") {
-            var arr = [queryString[key], decodeURIComponent(value)];
-            queryString[key] = arr;
-            // If third or later entry with this name
-        } else {
-            queryString[key].push(decodeURIComponent(value));
+function parseQueryString(fullUrl) {
+    const queryStringStart = fullUrl.lastIndexOf("?");
+
+    if (queryStringStart === -1) {
+        return {};
+    }
+
+    if (queryStringStart == fullUrl.length - 1) {
+        return {};
+    }
+
+    const queryString = fullUrl.substring(
+        queryStringStart + 1
+    );
+
+    const parameters = queryString.split("&");
+
+    var parametersObj = {};
+    for (var i = 0; i < parameters.length; i++) {
+        const pair = parameters[i].split("=");
+
+        const key = pair[0] ? decodeURIComponent(pair[0]) : "";
+        const value = pair[1] ? decodeURIComponent(pair[1]) : "";
+
+        const savedValue = parametersObj[key];
+        const savedValueType = typeof savedValue;
+
+        if (savedValueType === "undefined") {
+            parametersObj[key] = value;
+        } else if (savedValueType === "string") {
+            parametersObj[key] = [savedValue, value];
+        } else if (savedValueType === "object") {
+            parametersObj[key].push(value);
         }
     }
-    return queryString;
+    return parametersObj;
 }
 
 // Tries to match a handler regex pattern to the current url
@@ -185,6 +199,20 @@ function initialize() {
     registerListener();
 }
 
-(function () {
+if (typeof chrome !== "undefined") {
     initialize();
-})();
+}
+
+module.exports = {
+    GenericParameterHandler,
+    TrailingSegmentHandler,
+    TradeDoublerHandler,
+
+    processHandlers,
+    registerListener,
+    findHandlerFor,
+    processRedirectUrl,
+    parseQueryString,
+    pluck,
+    handlers,
+}
