@@ -44,14 +44,6 @@ const TradeDoublerHandler = function () {
 // Register handlers for websites here
 const handlers = processHandlers([
     {
-        pattern: "*://track.effiliation.com/servlet/effi.redir?*",
-        handler: GenericParameterHandler("url")
-    },
-    {
-        pattern: "*://mailtracking.gitter.im/track/click/*",
-        handler: TrailingSegmentHandler("/")
-    },
-    {
         pattern: "*://clkuk.tradedoubler.com/click?*",
         handler: TradeDoublerHandler()
     },
@@ -64,16 +56,8 @@ const handlers = processHandlers([
         handler: GenericParameterHandler("url")
     },
     {
-        pattern: "*://track.webgains.com/click.html?*",
-        handler: TrailingSegmentHandler("wgtarget=")
-    },
-    {
         pattern: "*://www.awin1.com/cread.php?*",
         handler: GenericParameterHandler("p")
-    },
-    {
-        pattern: "*://ad.admitad.com/*",
-        handler: TrailingSegmentHandler("ulp=")
     },
     {
         pattern: "*://shareasale.com/*",
@@ -82,6 +66,22 @@ const handlers = processHandlers([
     {
         pattern: "*://www.googleadservices.com/pagead/aclk?*",
         handler: GenericParameterHandler("adurl")
+    },
+    {
+        pattern: "*://track.effiliation.com/servlet/effi.redir?*",
+        handler: GenericParameterHandler("url")
+    },
+    {
+        pattern: "*://mailtracking.gitter.im/track/click/*",
+        handler: TrailingSegmentHandler("/")
+    },
+    {
+        pattern: "*://track.webgains.com/click.html?*",
+        handler: TrailingSegmentHandler("wgtarget=")
+    },
+    {
+        pattern: "*://ad.admitad.com/*",
+        handler: TrailingSegmentHandler("ulp=")
     },
     {
         pattern: "*://clickserve.dartsearch.net/link/click?*",
