@@ -80,6 +80,10 @@ const handlers = processHandlers([
         handler: GenericParameterHandler("url")
     },
     {
+        pattern: "*://www.tkqlhce.com/click*",
+        handler: TrailingSegmentHandler("url=")
+    },
+    {
         pattern: "*://mailtracking.gitter.im/track/click/*",
         handler: TrailingSegmentHandler("/")
     },
