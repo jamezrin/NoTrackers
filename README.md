@@ -7,4 +7,4 @@ In cases like this, if you didn't use this extension, you'd end up unable to nav
 
 ### Executing tests
 
-To run tests execute `mocha` in the `test` directory
+Install `mocha` globally and run it in this directory, that should suffice.
